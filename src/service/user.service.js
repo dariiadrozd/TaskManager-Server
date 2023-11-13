@@ -1,4 +1,4 @@
-const {getAllUsersDB, createUsersDB, getByIdUsersDB, updateByIdUsersDB, patchDataDB} = require('../repository/user.repository')
+const {getAllUsersDB, createUsersDB, getByIdUsersDB, updateByIdUsersDB, patchDataDB, deleteUserDB} = require('../repository/user.repository')
 
 async function getAllUsers(){
     const data = await getAllUsersDB()
@@ -30,6 +30,12 @@ async function patchData(id,clienObj){
     return data
 }
 
+async function deleteUser(id){
+    const data = await deleteUserDB(id);
+    if(!data.length) throw new Error ('user data is empty ')
+    return data;
+}
 
 
-module.exports = {getAllUsers, createUsers, getByIdUsers, updateByIdUsers, patchData}
+
+module.exports = {getAllUsers, createUsers, getByIdUsers, updateByIdUsers, patchData, deleteUser}

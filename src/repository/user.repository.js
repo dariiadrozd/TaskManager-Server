@@ -44,4 +44,12 @@ async function patchDataDB(id, clienObj) {
     return result
 }
 
-module.exports = { getAllUsersDB, createUsersDB, getByIdUsersDB, updateByIdUsersDB, patchDataDB }
+async function deleteUserDB(id){
+    const client = await pool.connect()
+    const sql = `delete from users where id=$1 
+    returning *`
+    const data = (await client.query(sql,[id])).rows
+    return data
+}
+
+module.exports = { getAllUsersDB, createUsersDB, getByIdUsersDB, updateByIdUsersDB, patchDataDB, deleteUserDB }

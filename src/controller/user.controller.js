@@ -1,5 +1,5 @@
 const express = require('express');
-const { getAllUsers, createUsers, getByIdUsers, updateByIdUsers, patchData } = require('../service/user.service')
+const { getAllUsers, createUsers, getByIdUsers, updateByIdUsers, patchData, deleteUser } = require('../service/user.service')
 
 const route = express.Router()
 
@@ -50,6 +50,16 @@ route.patch('/:id', async(req,res)=>{
     } catch (error) {
         res.status(404).send(error.message)
     }  
+})
+
+route.delete('/:id', async(req,res)=>{
+    try{
+        const {id} = req.params;
+        const data = await deleteUser(id);
+        res.status(200).send(data)
+    }catch(error){
+   res.status(404).send(error.message)
+    }
 })
 
 module.exports = route;
