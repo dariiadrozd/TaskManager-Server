@@ -1,5 +1,6 @@
  const ExceptionType= require('../exception/exception')
 
+
 function isValidTaskBody(req,res,next){
     const {task,user_id} = req.body
 
@@ -7,7 +8,10 @@ function isValidTaskBody(req,res,next){
 
     if(!isNaN(task)) throw new Error (ExceptionType.TASK_TITLE_INVALID)
 
-    if(!isNaN(user_id)) throw new Error(ExceptionType.TASK_USER_ID_INVALID)
+    if (typeof user_id !== 'string' && typeof user_id !== 'number') {
+        throw new Error(ExceptionType.TASK_USER_ID_INVALID);
+    }
+    
     next()
 }
 

@@ -1,64 +1,67 @@
 const express = require('express');
-const { getAllUsers, createUsers, getByIdUsers, updateByIdUsers, patchData, deleteUser } = require('../service/user.service')
+const { buildResponse } = require('../helper/buildResponse');
+const { getAllUsers, createUsers, getByIdUsers, updateByIdUsers, patchData, deleteUser } = require('../service/user.service');
+const { isValidUserBody, isValidIdUserId, isValidEmailUser } = require('../helper/userValidation')
 
 const route = express.Router()
 
 route.get('/', async (req, res) => {
     try {
         const data = await getAllUsers()
-        res.status(200).send(data)
+        buildResponse(res, 200, data);
     } catch (error) {
-        res.status(404).send(error.message)
+        buildResponse(res, 404, error.message);
     }
 })
 
-route.post('/', async (req, res) => {
+route.post('/', isValidUserBody, async (req, res) => {
     try {
         const { name, surname, email, pwd } = req.body;
         const data = await createUsers(name, surname, email, pwd);
-        res.status(200).send(data)
+        buildResponse(res, 200, data);
     } catch (error) {
-        res.status(404).send(error.message)
+        buildResponse(res, 404, error.message);
     }
 })
 
-route.get('/:id', async (req, res) => {
+route.get('/:id', isValidIdUserId, async (req, res) => {
     try {
         const { id } = req.params;
         const data = await getByIdUsers(id);
-        res.status(200).send(data);
+        buildResponse(res, 200, data);
     } catch (error) {
-        res.status(404).send(error.message)
+        buildResponse(res, 404, error.message);
     }
 })
 
-route.put('/:id', async(req,res)=>{
+route.put('/:id', isValidIdUserId, isValidEmailUser,async (req, res) => {
     try {
-        const { id, name, surname, email, pwd } = req.params;
-        const data = await updateByIdUsers(id, name, surname, email, pwd);
-        res.status(200).send(data);
-    } catch (error) {
-        res.status(404).send(error.message)
-    } 
-})
-
-route.patch('/:id', async(req,res)=>{
-    try {
-        const { id} = req.params;
-        const data = await patchData(id);
-        res.status(200).send(data);
-    } catch (error) {
-        res.status(404).send(error.message)
-    }  
-})
-
-route.delete('/:id', async(req,res)=>{
-    try{
         const {id} = req.params;
+        const { name, surname, email, pwd } = req.body;
+        const data = await updateByIdUsers(id, name, surname, email, pwd);
+        buildResponse(res, 200, data);
+    } catch (error) {
+        buildResponse(res, 404, error.message);
+    }
+})
+
+route.patch('/:id', isValidIdUserId, async (req, res) => {
+    try {
+        const { id } = req.params;
+        const data = await patchData(id);
+        buildResponse(res, 200, data);
+    } catch (error) {
+        buildResponse(res, 404, error.message);
+    }
+})
+
+route.delete('/:id', isValidIdUserId, async (req, res) => {
+    try {
+        const { id } = req.params;
         const data = await deleteUser(id);
-        res.status(200).send(data)
-    }catch(error){
-   res.status(404).send(error.message)
+        buildResponse(res, 200, data);
+    } catch (error) {
+        buildResponse(res, 404, error.message);
     }
 })
 
