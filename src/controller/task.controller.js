@@ -1,6 +1,6 @@
 const express = require('express');
 const buildResponse = require('../helper/buildResponce');
-const { getAllTasks,createTask, deleteTask, PatchDataTask } = require('../service/task.service');
+const { getAllTasks,createTask, deleteTask, PatchDataTask, getByIdTask } = require('../service/task.service');
 const { isValidTaskBody, isValidId } = require('../helper/validation');
 
 
@@ -44,6 +44,16 @@ route.patch('/:id', isValidId, async (req, res) => {
         buildResponse(res, 200, data)
     } catch (error) {
         buildResponse(res, 404, error.message)
+    }
+})
+
+route.get('/:id', isValidId, async(req,res)=>{
+    try{
+const {id} = req.params;
+const data = await getByIdTask(id);
+buildResponse(res,2002,data)
+    }catch(error){
+        buildResponse(res,404,error.message)
     }
 })
 

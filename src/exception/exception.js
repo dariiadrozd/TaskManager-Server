@@ -10,7 +10,8 @@ const ExceptionType = {
     DB_POST_TASK_NOT_CREATE:'task does not create',
     DB_PUT_TASK_NOT_UPDATE:'task does not update',
     DB_PUT_TASK_NOT_DELETE:'task does not delete',
-    DB_PUT_TASK_NOT_PATCH:'task does not patch'
+    DB_PUT_TASK_NOT_PATCH:'task does not patch',
+    DB_GET_BY_ID_NOT_FOUND:'task by id id not found'
 }
 
 module.exports = ExceptionType

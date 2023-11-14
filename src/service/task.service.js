@@ -1,4 +1,4 @@
-const {getAllTasksDB, createTaskDB, deleteTaskDB, PatchDataTaskDB} = require('../repository/task.repository');
+const {getAllTasksDB, createTaskDB, deleteTaskDB, PatchDataTaskDB, getByIdTaskDB} = require('../repository/task.repository');
 const ExceptionType = require('../exception/exception')
 
 async function getAllTasks(){
@@ -25,5 +25,11 @@ async function PatchDataTask(id, clientObj){
     return data 
 }
 
+async function getByIdTask(id){
+    const data = await getByIdTaskDB(id);
+    if(!data.length) throw new Error(ExceptionType.DB_GET_BY_ID_NOT_FOUND)
+    return data
+}
 
-module.exports= {getAllTasks, createTask, deleteTask, PatchDataTask}
+
+module.exports= {getAllTasks, createTask, deleteTask, PatchDataTask, getByIdTask}
