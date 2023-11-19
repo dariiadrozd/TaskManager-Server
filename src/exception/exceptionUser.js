@@ -21,4 +21,4 @@ const ExceptionTypeUser = {
     DB_GET_BY_ID_NOT_FOUND:'user by id id not found'
 }
 
-module.exports = ExceptionTypeUser
+module.exports = ExceptionTypeUser;
