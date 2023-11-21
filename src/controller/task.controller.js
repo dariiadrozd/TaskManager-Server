@@ -25,16 +25,6 @@ route.post('/', isValidTaskBody, async (req, res) => {
     }
 })
 
-route.patch('/:id', isValidId, isValidTaskBody, async (req, res) => {
-    try {
-        const { id } = req.params;
-        const clientObj = req.body;
-        const data = await patchTaskById(id, clientObj);
-        buildResponse(res, 200, data);
-    } catch (error) {
-        buildResponse(res, 404, error.message);
-    }
-})
 
 route.delete('/:id', isValidId, async (req, res) => {
     try {
@@ -50,6 +40,17 @@ route.get('/:id', isValidId, async (req, res) => {
     try {
         const { id } = req.params;
         const data = await getTaskById(id);
+        buildResponse(res, 200, data);
+    } catch (error) {
+        buildResponse(res, 404, error.message);
+    }
+})
+
+route.patch('/:id', isValidId, isValidTaskBody, async (req, res) => {
+    try {
+        const { id } = req.params;
+        const clientObj = req.body;
+        const data = await patchTaskById(id, clientObj);
         buildResponse(res, 200, data);
     } catch (error) {
         buildResponse(res, 404, error.message);

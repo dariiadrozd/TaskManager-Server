@@ -1,6 +1,6 @@
 const express = require('express');
 const { buildResponse } = require('../helper/buildResponse');
-const { getAllUsers, createUsers, getByIdUsers, updateByIdUsers, patchData, deleteUser } = require('../service/user.service');
+const { getAllUsers, createUsers, getByIdUsers, updateByIdUsers, deleteUser, patchDataUser } = require('../service/user.service');
 const { isValidUserBody, isValidIdUserId, isValidEmailUser } = require('../helper/userValidation')
 
 const route = express.Router()
@@ -45,15 +45,6 @@ route.put('/:id', isValidIdUserId, isValidEmailUser,async (req, res) => {
     }
 })
 
-route.patch('/:id', isValidIdUserId, async (req, res) => {
-    try {
-        const { id } = req.params;
-        const data = await patchData(id);
-        buildResponse(res, 200, data);
-    } catch (error) {
-        buildResponse(res, 404, error.message);
-    }
-})
 
 route.delete('/:id', isValidIdUserId, async (req, res) => {
     try {
@@ -65,5 +56,17 @@ route.delete('/:id', isValidIdUserId, async (req, res) => {
     }
 })
 
+route.patch('/:id', isValidIdUserId, async(req,res)=>{
+    try{
+        const {id} = req.params;
+        const clientObj = req.body;
+        const data = await patchDataUser(id, clientObj)
+        buildResponse(res,200,data)
+    }catch(error){
+buildResponse(res,404,error.message);
+    }
+   
+
+})
 
 module.exports = route;
